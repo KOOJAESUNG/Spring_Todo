@@ -30,7 +30,7 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<?> createTodo(@AuthenticationPrincipal String userId, @RequestBody TodoDTO dto) {
         try {
-
+            System.out.println("create todo");
             // (1) TodoEntity로 변환한다.
             TodoEntity entity = TodoDTO.toEntity(dto);
 
@@ -63,7 +63,7 @@ public class TodoController {
 
     @GetMapping
     public ResponseEntity<?> retrieveTodoList(@AuthenticationPrincipal String userId){
-
+        System.out.println("retrieve todo");
         // (4) 서비스를 이용해 Todo엔티티를 생성한다.
         List<TodoEntity> entities = service.retrieve(userId);
 
@@ -80,13 +80,12 @@ public class TodoController {
 
     @PutMapping
     public ResponseEntity<?> updateTodo(@AuthenticationPrincipal String userId,@RequestBody TodoDTO dto) {
-        String temporaryUserId = "temporary-user"; // temporary user id.
-
+        System.out.println("update todo");
         // (1) dto를 entity로 변환한다.
         TodoEntity entity = TodoDTO.toEntity(dto);
 
         // (2) id를 temporaryUserId로 초기화 한다. 여기는 4장 인증과 인가에서 수정 할 예정이다.
-        entity.setUserId(temporaryUserId);
+        entity.setUserId(userId);
 
         // (3) 서비스를 이용해 entity를 업데이트 한다.
         List<TodoEntity> entities = service.update(entity);
@@ -100,15 +99,15 @@ public class TodoController {
         // (6) ResponseDTO를 리턴한다.
         return ResponseEntity.ok().body(response);
     }
+    @DeleteMapping
     public ResponseEntity<?> deleteTodo(@AuthenticationPrincipal String userId,@RequestBody TodoDTO dto) {
         try {
-            String temporaryUserId = "temporary-user"; // temporary user id.
-
+            System.out.println("delete todo");
             // (1) TodoEntity로 변환한다.
             TodoEntity entity = TodoDTO.toEntity(dto);
 
             // (2) 임시 유저 아이디를 설정 해 준다. 이 부분은 4장 인증과 인가에서 수정 할 예정이다. 지금은 인증과 인가 기능이 없으므로 한 유저(temporary-user)만 로그인 없이 사용 가능한 애플리케이션인 셈이다
-            entity.setUserId(temporaryUserId);
+            entity.setUserId(userId);
 
             // (3) 서비스를 이용해 entity를 삭제 한다.
             List<TodoEntity> entities = service.delete(entity);

@@ -28,7 +28,8 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO){
         try{
-            if(userDTO==null || userDTO.getPassword()==null){ //컨트롤러에서 패스워드가 null이 아닌지 필히 확인해야 한다.
+            if(userDTO==null || userDTO.getPassword()==null || userDTO.getPassword().equals("")){ //컨트롤러에서 패스워드가 null이 아닌지 필히 확인해야 한다.
+                System.out.println("Invalid Password value");
                 throw new RuntimeException("Invalid Password value");
             }
             //요청을 이용해 저장할 유저 만들기
