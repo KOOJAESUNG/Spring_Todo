@@ -1,4 +1,4 @@
-package com.example;
+package com.example.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,17 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor //매개변수가 없는 생성자를 구현해준다.
 @AllArgsConstructor //모든 멤버변수를 매개변수로 받는 생성자를 구현해준다.
 @Data //게터, 세터를 구현해준다.
-public class TodoDTO {
+public class UserDTO {
+    private String token;
+    private String username;
+    private String password;
     private String id;
-    private String title;
-    private boolean done;
 
-    public TodoDTO(final TodoEntity entity){
-        this.id = entity.getId();
-        this.title = entity.getTitle();
-        this.done = entity.isDone();
-    }
-    public static TodoEntity toEntity(final TodoDTO dto){
-        return TodoEntity.builder().id(dto.getId()).title(dto.getTitle()).done(dto.isDone()).build();
-    }
 }
